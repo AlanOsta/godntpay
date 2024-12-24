@@ -1,5 +1,5 @@
 <template>
-  <HelloWorld />
+  <NPD />
 </template>
 
 <script setup>
