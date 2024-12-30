@@ -3,8 +3,35 @@ import { defineStore } from "pinia"
 export const useMesaStore = defineStore('mesa', {
   state: () => ({
         id: 'WRMcpIk7',
-      comensales: [],
-      items: [],
+      comensales: [
+        {
+          id: 0,
+          nombre: "Alan",
+          saldo: 0,
+        },
+        {
+          id: 1,
+          nombre: "Nati",
+          saldo: 0,
+        },
+
+      ],
+      items: [
+        {
+          id: 0,
+          cant: 1,
+          desc: "Coca Cola",
+          precio: 2000,
+          paga: [0,1],
+        },
+        {
+          id: 1,
+          cant: 1,
+          desc: "Vino",
+          precio: 9000,
+          paga: [1],
+        },
+      ],
       totales: {
         general: 0,
         propina: 0.1,
