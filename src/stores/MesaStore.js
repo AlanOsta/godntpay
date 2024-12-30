@@ -11,9 +11,9 @@ export const useMesaStore = defineStore('mesa', {
       },
       newComensal: '',
       newItem: {
-        cant: 0,
-        desc: ' ',
-        precio: 0,
+        cant: null,
+        desc: null,
+        precio: null,
         paga: [],
       }
   }),

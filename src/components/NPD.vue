@@ -22,7 +22,7 @@ const comensalRule = [
 
     <v-row>
       <v-col cols="12">
-        <v-card class="py-4" color="surface-variant" rounded="lg" variant="outlined">
+        <v-card class="py-4 ma-1" color="surface-variant" rounded="lg" variant="outlined">
           <template #title>
             <h2 class="text-h5 font-weight-bold">Mesa ID: {{ mesa.id }}</h2>
 
@@ -50,76 +50,69 @@ const comensalRule = [
             <v-divider class="my-3" :thickness="7" />
 
             <h6 class="text-h6 font-weight-bold">Agregar item...</h6>
-            <v-table class="mt-2 pt-2 pb-0">
-              <tbody>
-                <tr>
-                  <td>
-                    <v-text-field v-model="mesa.newItem.cant" label="Cant..." />
-                  </td>
-                  <td>
-                    <v-text-field v-model="mesa.newItem.desc" label="Descripcion..." />
-                  </td>
-                  <td>
-                    <v-text-field
-                      v-model="mesa.newItem.precio"
-                      label="Precio..."
-                      prefix="$"
-                    />
-                  </td>
-                  <td>
-                    <!-- <div class="pa-0 ma-0 ga-0 text-center"> -->
-                    <v-dialog width="auto" scrollable>
-                      <template v-slot:activator="{ props: activatorProps }">
-                        <v-btn
-                          color="grey"
-                          text="Paga..."
-                          variant="outlined"
-                          v-bind="activatorProps"
-                        />
-                      </template>
 
-                      <template v-slot:default="{ isActive }">
-                        <!-- <v-card prepend-icon="mdi-earth" title="Select Country"> -->
-                        <v-card>
-                          <!-- <v-divider class="mt-3" /> -->
-                          <v-card-text class="px-4" style="height: 300px">
-                            <v-checkbox
-                              v-for="comensal in mesa.comensales"
-                              :key="comensal.id"
-                              v-model="mesa.newItem.paga"
-                              class="pa-0 ma-0 ga-0"
-                              hide-details="true"
-                              :label="comensal.nombre"
-                              :value="comensal.id"
-                            />
-                          </v-card-text>
-                          <v-divider />
-                          <v-card-actions>
-                            <v-btn text="Cerrar" @click="isActive.value = false" />
-                            <v-spacer />
-                            <v-btn
-                              color="surface-variant"
-                              text="Guardar"
-                              variant="flat"
-                              @click="isActive.value = false"
-                            />
-                          </v-card-actions>
-                        </v-card>
-                      </template>
-                    </v-dialog>
-                    <!-- </div> -->
-                  </td>
-                  <td>
-                    <v-btn
-                      color="primary"
-                      icon="mdi-plus"
-                      size="small"
-                      @click="mesa.addItem()"
+            <v-number-input
+              v-model="mesa.newItem.cant"
+              control-variant="default"
+              variant="solo"
+              inset
+              label="Cant..."
+            />
+
+            <v-text-field v-model="mesa.newItem.desc" label="Descripcion..." />
+
+            <v-number-input
+              v-model="mesa.newItem.precio"
+              control-variant="default"
+              variant="solo"
+              inset
+              label="Precio..."
+              prefix="$"
+            />
+
+            <v-dialog width="auto" scrollable>
+              <template v-slot:activator="{ props: activatorProps }">
+                <v-btn
+                  block
+                  color="grey"
+                  text="Paga..."
+                  variant="outlined"
+                  v-bind="activatorProps"
+                />
+              </template>
+
+              <template v-slot:default="{ isActive }">
+                <!-- <v-card prepend-icon="mdi-earth" title="Select Country"> -->
+                <v-card>
+                  <!-- <v-divider class="mt-3" /> -->
+                  <v-card-text class="px-4" style="height: 300px">
+                    <v-checkbox
+                      v-for="comensal in mesa.comensales"
+                      :key="comensal.id"
+                      v-model="mesa.newItem.paga"
+                      class="pa-0 ma-0 ga-0"
+                      hide-details="true"
+                      :label="comensal.nombre"
+                      :value="comensal.id"
                     />
-                  </td>
-                </tr>
-              </tbody>
-            </v-table>
+                  </v-card-text>
+                  <v-divider />
+                  <v-card-actions>
+                    <v-btn text="Cerrar" @click="isActive.value = false" />
+                    <v-spacer />
+                    <v-btn
+                      color="surface-variant"
+                      text="Guardar"
+                      variant="flat"
+                      @click="isActive.value = false"
+                    />
+                  </v-card-actions>
+                </v-card>
+              </template>
+            </v-dialog>
+            <!-- </div> -->
+
+            <v-btn block class="my-2" color="primary" @click="mesa.addItem()"> + </v-btn>
 
             <v-divider class="my-3" :thickness="7" />
 
@@ -148,7 +141,7 @@ const comensalRule = [
                   <th class="text-left">Cant</th>
                   <th class="text-left">Descripcion</th>
                   <th class="text-left">Precio</th>
-                  <th class="text-left">Pagan't</th>
+                  <th class="text-left">Paga</th>
                   <th class="text-left">Acciones</th>
                 </tr>
               </thead>
@@ -163,12 +156,6 @@ const comensalRule = [
                     </v-chip>
                   </td>
                   <td>
-                    <v-btn
-                      class="mx-1"
-                      color="warning"
-                      icon="mdi-pencil-box"
-                      size="small"
-                    />
                     <v-btn
                       class="mx-1"
                       color="error"
