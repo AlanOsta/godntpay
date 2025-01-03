@@ -29,7 +29,13 @@ const comensalRule = [
       <v-col cols="12">
         <v-card class="py-4 ma-1" color="surface-variant" rounded="lg" variant="outlined">
           <template #title>
-            <h2 class="text-h5 font-weight-bold">Mesa ID: {{ mesa.id }}</h2>
+            <v-progress-linear
+              v-show="mesa.isLoading"
+              color="grey"
+              indeterminate
+              rounded
+            />
+            <h6 class="text-h6 font-weight-bold">Mesa ID: {{ mesa.id }}</h6>
 
             <h6 class="text-h6 font-weight-bold">
               Comensales ({{ mesa.comensales.length }})
@@ -96,7 +102,9 @@ const comensalRule = [
               </v-row>
             </v-container>
 
-            <v-btn block class="my-2" color="primary" @click="mesa.addItem()"> + </v-btn>
+            <v-btn block class="my-2" color="dark-grey" @click="mesa.addItem()">
+              Agregar
+            </v-btn>
 
             <v-divider class="my-3" :thickness="7" />
 
