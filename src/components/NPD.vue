@@ -2,7 +2,7 @@
 import { useMesaStore } from "@/stores/MesaStore.js";
 import { onMounted } from "vue";
 
-let mesa = useMesaStore();
+const mesa = useMesaStore();
 
 onMounted(() => {
   mesa.fetchFirebase();
@@ -17,7 +17,6 @@ const comensalRule = [
 </script>
 
 <template>
-  <!-- <v-container class="fill-height"> -->
   <v-responsive class="align-centerfill-height mx-auto" max-width="900">
     <div class="text-center">
       <h1 class="text-h2 font-weight-bold mt-1">Godn't Pay</h1>
@@ -27,15 +26,39 @@ const comensalRule = [
 
     <v-row>
       <v-col cols="12">
-        <v-card class="py-4 ma-1" color="surface-variant" rounded="lg" variant="outlined">
+        <v-card class="py-1 ma-1" color="surface-variant" rounded="lg" variant="outlined">
           <template #title>
             <v-progress-linear
+              class="mt-0 p-0 mb-2"
               v-show="mesa.isLoading"
               color="grey"
               indeterminate
               rounded
             />
-            <h6 class="text-h6 font-weight-bold">Mesa ID: {{ mesa.id }}</h6>
+            <div class="d-flex justify-space-between block">
+              <span class="text-h6 font-weight-bold flex">Mesa ID: {{ mesa.id }}</span>
+              <v-btn size="x-small" color="warning" @click="mesa.modalVaciarMesa = true">
+                Vaciar Mesa
+              </v-btn>
+            </div>
+            <v-dialog v-model="mesa.modalVaciarMesa" width="auto">
+              <v-card
+                max-width="400"
+                prepend-icon="mdi-delete-empty"
+                title="¿Vaciar mesa?"
+              >
+                <template #actions>
+                  <v-btn
+                    class="ms-auto"
+                    color="red"
+                    text="VACIAR"
+                    block
+                    variant="outlined"
+                    @click="mesa.vaciarMesa()"
+                  />
+                </template>
+              </v-card>
+            </v-dialog>
 
             <h6 class="text-h6 font-weight-bold">
               Comensales ({{ mesa.comensales.length }})
@@ -164,5 +187,4 @@ const comensalRule = [
       </v-col>
     </v-row>
   </v-responsive>
-  <!-- </v-container> -->
 </template>

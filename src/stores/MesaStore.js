@@ -5,7 +5,8 @@ import { updateDoc, doc, onSnapshot } from "firebase/firestore";
 export const useMesaStore = defineStore('mesa', {
   state: () => ({
       isLoading: true,
-      id: '8VYGyI3FpmfS3j7H2u5S',
+      modalVaciarMesa: false,
+      id: '7H2u5S',
       comensales: [],
       items: [],
       totales: {
@@ -86,6 +87,12 @@ export const useMesaStore = defineStore('mesa', {
             })
           })
       })
+    },
+
+    vaciarMesa(){
+      this.comensales = [];
+      this.items = [];
+      this.modalVaciarMesa = false;
     },
 
     async fetchFirebase(){
