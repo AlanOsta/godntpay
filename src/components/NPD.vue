@@ -1,7 +1,12 @@
 <script setup>
 import { useMesaStore } from "@/stores/MesaStore.js";
+import { onMounted } from "vue";
 
 let mesa = useMesaStore();
+
+onMounted(() => {
+  mesa.fetchFirebase();
+});
 
 const comensalRule = [
   (value) => {
@@ -106,7 +111,7 @@ const comensalRule = [
               <tbody>
                 <tr v-for="comensalSaldo in mesa.comensales" :key="comensalSaldo.id">
                   <td>{{ comensalSaldo.nombre }}</td>
-                  <td>${{ comensalSaldo.saldo.toFixed(2) }}</td>
+                  <td>${{ comensalSaldo.saldo?.toFixed(2) }}</td>
                 </tr>
               </tbody>
             </v-table>
