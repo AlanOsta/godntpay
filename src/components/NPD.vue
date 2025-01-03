@@ -20,10 +20,10 @@ const comensalRule = [
   <!-- <v-container class="fill-height"> -->
   <v-responsive class="align-centerfill-height mx-auto" max-width="900">
     <div class="text-center">
-      <h1 class="text-h2 font-weight-bold">Godn't Pay</h1>
+      <h1 class="text-h2 font-weight-bold mt-1">Godn't Pay</h1>
     </div>
 
-    <div class="py-4" />
+    <div class="py-1" />
 
     <v-row>
       <v-col cols="12">
