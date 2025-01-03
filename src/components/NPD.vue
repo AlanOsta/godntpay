@@ -131,20 +131,50 @@ const comensalRule = [
 
             <v-divider class="my-3" :thickness="7" />
 
-            <h6 class="text-h6 font-weight-bold">Totales</h6>
+            <div class="d-flex justify-space-between block">
+              <span class="text-h6 font-weight-bold flex">Totales</span>
+
+              <v-switch
+                v-model="mesa.calcularPropina"
+                color="warning"
+                label="Propina (10%)"
+                hide-details
+              />
+            </div>
+
             <v-table theme="dark">
               <thead>
                 <tr>
                   <th class="text-left">Nombre</th>
-                  <th class="text-left">Saldo</th>
+                  <th class="text-left">
+                    {{ mesa.calcularPropina ? "Saldo c/ Propina" : "Saldo" }}
+                  </th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="comensalSaldo in mesa.comensales" :key="comensalSaldo.id">
                   <td>{{ comensalSaldo.nombre }}</td>
-                  <td>${{ comensalSaldo.saldo?.toFixed(2) }}</td>
+                  <td>
+                    ${{
+                      mesa.calcularPropina
+                        ? (comensalSaldo.saldo * 1.1).toFixed(2)
+                        : comensalSaldo.saldo?.toFixed(2)
+                    }}
+                  </td>
                 </tr>
               </tbody>
+              <tfoot>
+                <tr>
+                  <th>Total</th>
+                  <td>
+                    ${{
+                      mesa.calcularPropina
+                        ? (mesa.total.general * 1.1).toFixed(2)
+                        : mesa.total.general.toFixed(2)
+                    }}
+                  </td>
+                </tr>
+              </tfoot>
             </v-table>
             <v-divider class="my-3" :thickness="7" />
 

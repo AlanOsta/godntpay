@@ -6,12 +6,13 @@ export const useMesaStore = defineStore('mesa', {
   state: () => ({
       isLoading: true,
       modalVaciarMesa: false,
+      calcularPropina: false,
       id: '7H2u5S',
       comensales: [],
       items: [],
-      totales: {
+      total: {
         general: 0,
-        propina: 0.1,
+        propina: 1.1,
       },
       newComensal: '',
       newItem: {
@@ -77,8 +78,10 @@ export const useMesaStore = defineStore('mesa', {
       this.comensales.forEach(comensal => {
         comensal.saldo = 0;
       });
+      this.total.general = 0;
       this.items.forEach(item => {
           let parcial = (item.cant * item.precio) / item.paga.length;
+          this.total.general += (item.cant * item.precio);
           item.paga.forEach(comensal => {
             this.comensales.forEach(comensales => {
               if (comensales.id == comensal) {
