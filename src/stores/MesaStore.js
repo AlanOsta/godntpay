@@ -1,11 +1,11 @@
 import { defineStore } from "pinia";
 import { db } from "@/firebase.js";
-import { getDocs, updateDoc, doc, collection } from "firebase/firestore";
+import { updateDoc, doc, onSnapshot } from "firebase/firestore";
 
 export const useMesaStore = defineStore('mesa', {
   state: () => ({
       isLoading: true,
-      id: '',
+      id: '8VYGyI3FpmfS3j7H2u5S',
       comensales: [],
       items: [],
       totales: {
@@ -89,26 +89,27 @@ export const useMesaStore = defineStore('mesa', {
     },
 
     async fetchFirebase(){
-      let fireMesas = await getDocs(collection(db, 'mesas'));
-      fireMesas.forEach((mesa) => {
+      // let fireMesas = await getDocs(collection(db, 'mesas'));
 
-        this.id = mesa.id;
+      onSnapshot(doc(db, "mesas", "8VYGyI3FpmfS3j7H2u5S"), (doc) => {
+        this.comensales = [];
+        this.items = [];
 
-        mesa.data().comensales.forEach((comensal) => {
+        doc.data().comensales.forEach((comensal) => {
           this.comensales.push(comensal);
         });
 
-         mesa.data().items.forEach((item) => {
+        doc.data().items.forEach((item) => {
           this.items.push(item);
         });
 
-      })
-
-      this.calcularSaldos();
+        this.calcularSaldos();
+        this.isLoading=false;
+      });
     },
 
     async updateMesa(){
-      const mesaRef = doc(db, 'mesas', this.id);
+      const mesaRef = doc(db, 'mesas', '8VYGyI3FpmfS3j7H2u5S');
       await updateDoc(mesaRef, {
         comensales: this.comensales,
         items: this.items
