@@ -8,6 +8,14 @@ onMounted(() => {
   mesa.fetchFirebase();
 });
 
+const headers = [
+  { title: "Cant", value: "cant" },
+  { title: "Descripcion", value: "desc" },
+  { title: "Precio", key: "precio" },
+  { title: "Paga", key: "paga" },
+  { title: "Acciones", key: "id" },
+];
+
 const comensalRule = [
   (value) => {
     if (value) return true;
@@ -29,8 +37,8 @@ const comensalRule = [
         <v-card class="py-1 ma-1" color="surface-variant" rounded="lg" variant="outlined">
           <template #title>
             <v-progress-linear
-              class="mt-0 p-0 mb-2"
               v-show="mesa.isLoading"
+              class="mt-0 p-0 mb-2"
               color="grey"
               indeterminate
               rounded
@@ -125,7 +133,7 @@ const comensalRule = [
               </v-row>
             </v-container>
 
-            <v-btn block class="my-2" color="dark-grey" @click="mesa.addItem()">
+            <v-btn block class="my-2" color="warning" @click="mesa.addItem()">
               Agregar
             </v-btn>
 
@@ -178,40 +186,40 @@ const comensalRule = [
             </v-table>
             <v-divider class="my-3" :thickness="7" />
 
-            <h6 class="text-h6 font-weight-bold">Items ({{ mesa.items.length }})</h6>
+            <div class="d-flex justify-space-between block">
+              <span class="text-h6 font-weight-bold flex">
+                Items ({{ mesa.total.items }})
+              </span>
 
-            <v-table theme="dark">
-              <thead>
-                <tr>
-                  <th class="text-left">Cant</th>
-                  <th class="text-left">Descripcion</th>
-                  <th class="text-left">Precio</th>
-                  <th class="text-left">Paga</th>
-                  <th class="text-left">Acciones</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="item in mesa.items" :key="item.id">
-                  <td>{{ item.cant }}</td>
-                  <td>{{ item.desc }}</td>
-                  <td>${{ item.precio }}</td>
-                  <td>
-                    <v-chip v-for="paga in item.paga" :key="paga.id" class="ma-1">
-                      {{ mesa.comensales[paga].nombre }}
-                    </v-chip>
-                  </td>
-                  <td>
-                    <v-btn
-                      class="mx-1"
-                      color="error"
-                      icon="mdi-close-box"
-                      size="small"
-                      @click="mesa.removeItem(item.id)"
-                    />
-                  </td>
-                </tr>
-              </tbody>
-            </v-table>
+              <v-switch v-model="mesa.debug" color="warning" label="Debug" hide-details />
+            </div>
+
+            <v-data-table
+              :headers="headers"
+              :items="mesa.items"
+              item-key="mesa.items.id"
+              items-per-page="50"
+            >
+              <template v-slot:item.precio="{ value }"> ${{ value }} </template>
+
+              <template v-slot:item.paga="{ value }">
+                <v-chip v-for="paga in value" :key="paga" class="ma-1">
+                  {{ mesa.comensales[paga].nombre }}
+                  <span v-show="mesa.debug">&nbsp;[{{ mesa.comensales[paga].id }}]</span>
+                </v-chip>
+              </template>
+
+              <template v-slot:item.id="{ value }">
+                <v-btn
+                  class="mx-1"
+                  color="error"
+                  icon="mdi-close-box"
+                  size="small"
+                  @click="mesa.removeItem(value)"
+                />
+                <span v-show="mesa.debug">{{ value }}</span>
+              </template>
+            </v-data-table>
           </template>
         </v-card>
       </v-col>
