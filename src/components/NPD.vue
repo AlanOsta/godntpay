@@ -204,8 +204,14 @@ const comensalRule = [
 
               <template v-slot:item.paga="{ value }">
                 <v-chip v-for="paga in value" :key="paga" class="ma-1">
-                  {{ mesa.comensales[paga].nombre }}
-                  <span v-show="mesa.debug">&nbsp;[{{ mesa.comensales[paga].id }}]</span>
+                  {{
+                    mesa.comensales.filter((comensal) => comensal.id == paga)[0].nombre
+                  }}
+                  <span v-show="mesa.debug">
+                    [{{
+                      mesa.comensales.filter((comensal) => comensal.id == paga)[0].id
+                    }}]
+                  </span>
                 </v-chip>
               </template>
 

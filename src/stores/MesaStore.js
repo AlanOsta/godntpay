@@ -8,6 +8,8 @@ export const useMesaStore = defineStore('mesa', {
       modalVaciarMesa: false,
       calcularPropina: false,
       debug: false,
+      comensalesLastId: 0,
+      itemsLastId: 0,
       id: '7H2u5S',
       comensales: [],
       items: [],
@@ -28,7 +30,7 @@ export const useMesaStore = defineStore('mesa', {
   actions: {
     addItem(){
       let newItem = {
-        id: parseInt(this.items.length),
+        id: parseInt(this.itemsLastId + 1),
         cant: parseInt(this.newItem.cant),
         desc: this.newItem.desc.trim(),
         precio: parseFloat(this.newItem.precio),
@@ -36,6 +38,7 @@ export const useMesaStore = defineStore('mesa', {
       };
       if (newItem.cant != null && newItem.desc != null && newItem.precio != null && newItem.paga.length > 0) {
         this.items.push(newItem);
+        this.itemsLastId++;
         this.newItem = {
           cant: null,
           desc: null,
@@ -56,12 +59,13 @@ export const useMesaStore = defineStore('mesa', {
     addComensal(nombre){
       if (nombre != '') {
         let newComensal = {
-          id: this.comensales.length,
+          id: parseInt(this.comensalesLastId + 1),
           nombre: nombre.trim(),
           saldo: 0,
         }
         this.comensales.push(newComensal);
         this.newComensal = '';
+        this.comensalesLastId++;
       }
       this.calcularSaldos();
       this.updateMesa();
@@ -100,6 +104,8 @@ export const useMesaStore = defineStore('mesa', {
       this.comensales = [];
       this.items = [];
       this.modalVaciarMesa = false;
+      this.itemsLastId = 0;
+      this.comensalesLastId = 0;
     },
 
     async fetchFirebase(){
@@ -117,6 +123,9 @@ export const useMesaStore = defineStore('mesa', {
           this.items.push(item);
         });
 
+        this.itemsLastId = doc.data().itemsLastId;
+        this.comensalesLastId = doc.data().comensalesLastId;
+
         this.calcularSaldos();
         this.isLoading=false;
       });
@@ -126,7 +135,9 @@ export const useMesaStore = defineStore('mesa', {
       const mesaRef = doc(db, 'mesas', '8VYGyI3FpmfS3j7H2u5S');
       await updateDoc(mesaRef, {
         comensales: this.comensales,
-        items: this.items
+        items: this.items,
+        itemsLastId: this.itemsLastId,
+        comensalesLastId: this.comensalesLastId
       })
     },
   }
